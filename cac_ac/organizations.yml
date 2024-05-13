@@ -1,0 +1,21 @@
+---
+- name: Ensure organizations are present in Automation Controller
+  ansible.controller.organization:
+    name: "{{ item }}"
+    description: "{{ item }}"
+    state: present
+    controller_host: "{{ ac_host }}"
+    controller_username: "{{ ac_username }}"
+    controller_password: "{{ ac_password }}"
+    validate_certs: "{{ ac_validate_certs }}"
+  loop:
+    - DEV
+    - OPS
+    - DEVOPS
+    - INFRA
+    - SECURITY
+    - EDA
+    - SRE
+  tags:
+    - organizations
+    - basic_config_ac

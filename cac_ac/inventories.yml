@@ -1,0 +1,227 @@
+---
+##################
+# INV-DEMOLABS_AC
+##################
+
+- name: Add inventory INV-DEMOLABS_AC
+  ansible.controller.inventory:
+    name: "INV-DEMOLABS_AC"
+    description: "Inventory demo labs"
+    organization: "Default"
+    state: present    
+    controller_host: "{{ ac_host }}"
+    controller_username: "{{ ac_username }}"
+    controller_password: "{{ ac_password }}"
+    validate_certs: "{{ ac_validate_certs }}"
+  tags:
+    - inventories
+    - basic_config_ac
+    - automation_controller
+
+
+- name: Add host in inventory
+  ansible.controller.host:
+    name: "{{ item.name }}"
+    description: "host {{ item.name }}"
+    inventory: INV-DEMOLABS_AC
+    state: present
+    enabled: True
+    variables:
+      ansible_host: "{{ item.ansible_host }}"
+    controller_host: "{{ ac_host }}"
+    controller_username: "{{ ac_username }}"
+    controller_password: "{{ ac_password }}"
+    validate_certs: "{{ ac_validate_certs }}"
+  tags:
+    - inventories
+    - basic_config_ac
+  loop:
+    - name: ac01.aroque.com.br
+      ansible_host: 192.168.100.111
+
+- name: Add Group AC
+  ansible.controller.group:
+    name: AC
+    inventory: INV-DEMOLABS_AC
+    hosts: "{{ item }}"
+    preserve_existing_hosts: True
+    controller_host: "{{ ac_host }}"
+    controller_username: "{{ ac_username }}"
+    controller_password: "{{ ac_password }}"
+    validate_certs: "{{ ac_validate_certs }}"
+  loop:
+    - ac01.aroque.com.br
+  tags:
+    - inventories
+    - basic_config_ac
+
+
+####################
+# INV-DEMOLABS_VIRT
+####################
+- name: Add inventory INV-DEMOLABS_VIRT
+  ansible.controller.inventory:
+    name: "INV-DEMOLABS_VIRT"
+    description: "Inventory demo labs"
+    organization: "Default"
+    state: present    
+    controller_host: "{{ ac_host }}"
+    controller_username: "{{ ac_username }}"
+    controller_password: "{{ ac_password }}"
+    validate_certs: "{{ ac_validate_certs }}"
+  tags:
+    - inventories
+    - basic_config_ac
+    - hypervisor
+
+- name: Add host in inventory
+  ansible.controller.host:
+    name: "{{ item.name }}"
+    description: "host {{ item.name }}"
+    inventory: INV-DEMOLABS_VIRT
+    state: present
+    enabled: True
+    variables:
+      ansible_host: "{{ item.ansible_host }}"
+    controller_host: "{{ ac_host }}"
+    controller_username: "{{ ac_username }}"
+    controller_password: "{{ ac_password }}"
+    validate_certs: "{{ ac_validate_certs }}"
+  tags:
+    - inventories
+    - basic_config_ac
+  loop:
+    - name: hypervisor01.aroque.com.br
+      ansible_host: 192.168.100.1
+
+- name: Add Group VIRT
+  ansible.controller.group:
+    name: HYPERVISOR
+    inventory: INV-DEMOLABS_VIRT
+    hosts: "{{ item }}"
+    preserve_existing_hosts: True
+    controller_host: "{{ ac_host }}"
+    controller_username: "{{ ac_username }}"
+    controller_password: "{{ ac_password }}"
+    validate_certs: "{{ ac_validate_certs }}"
+  loop:
+    - hypervisor01.aroque.com.br
+  tags:
+    - inventories
+    - basic_config_ac
+
+
+##################
+# INV-DEMOLABS_ALL
+##################
+- name: Add inventory INV-DEMOLABS_ALL
+  ansible.controller.inventory:
+    name: "INV-DEMOLABS_ALL"
+    description: "Inventory demo labs"
+    organization: "Default"
+    state: present    
+    controller_host: "{{ ac_host }}"
+    controller_username: "{{ ac_username }}"
+    controller_password: "{{ ac_password }}"
+    validate_certs: "{{ ac_validate_certs }}"
+  tags:
+    - inventories
+    - basic_config_ac
+
+- name: Add host in inventory
+  ansible.controller.host:
+    name: "{{ item.name }}"
+    description: "host {{ item.name }}"
+    inventory: INV-DEMOLABS_ALL
+    state: present
+    enabled: True
+    variables:
+      ansible_host: "{{ item.ansible_host }}"
+    controller_host: "{{ ac_host }}"
+    controller_username: "{{ ac_username }}"
+    controller_password: "{{ ac_password }}"
+    validate_certs: "{{ ac_validate_certs }}"
+  tags:
+    - inventories
+    - basic_config_ac
+  loop:
+    - name: web01.aroque.com.br
+      ansible_host: 192.168.100.21
+    - name: web02.aroque.com.br
+      ansible_host: 192.168.100.22
+    - name: db01.aroque.com.br
+      ansible_host: 192.168.100.23
+    - name: app01.aroque.com.br
+      ansible_host: 192.168.100.24
+    - name: app02.aroque.com.br
+      ansible_host: 192.168.100.25
+
+- name: Add Group webserver
+  ansible.controller.group:
+    name: WEBSERVER
+    inventory: INV-DEMOLABS_ALL
+    hosts: "{{ item }}"
+    preserve_existing_hosts: True
+    controller_host: "{{ ac_host }}"
+    controller_username: "{{ ac_username }}"
+    controller_password: "{{ ac_password }}"
+    validate_certs: "{{ ac_validate_certs }}"
+  loop:
+    - web01.aroque.com.br
+    - web02.aroque.com.br
+  tags:
+    - inventories
+    - basic_config_ac
+
+- name: Add Group database
+  ansible.controller.group:
+    name: DATABASE
+    inventory: INV-DEMOLABS_ALL
+    hosts: "{{ item }}"
+    preserve_existing_hosts: True
+    controller_host: "{{ ac_host }}"
+    controller_username: "{{ ac_username }}"
+    controller_password: "{{ ac_password }}"
+    validate_certs: "{{ ac_validate_certs }}"
+  loop:
+    - db01.aroque.com.br
+  tags:
+    - inventories
+    - basic_config_ac
+
+- name: Add Group application
+  ansible.controller.group:
+    name: APPLICATION
+    inventory: INV-DEMOLABS_ALL
+    hosts: "{{ item }}"
+    preserve_existing_hosts: True
+    controller_host: "{{ ac_host }}"
+    controller_username: "{{ ac_username }}"
+    controller_password: "{{ ac_password }}"
+    validate_certs: "{{ ac_validate_certs }}"
+  loop:
+    - app01.aroque.com.br
+    - app02.aroque.com.br
+  tags:
+    - inventories
+    - basic_config_ac
+
+- name: Add Group infra
+  ansible.controller.group:
+    name: INFRA
+    inventory: INV-DEMOLABS_ALL
+    hosts: "{{ item }}"
+    preserve_existing_hosts: True
+    controller_host: "{{ ac_host }}"
+    controller_username: "{{ ac_username }}"
+    controller_password: "{{ ac_password }}"
+    validate_certs: "{{ ac_validate_certs }}"
+  loop:
+    - web01.aroque.com.br
+    - web02.aroque.com.br
+    - db01.aroque.com.br
+    - app01.aroque.com.br
+    - app02.aroque.com.br
+  tags:
+    - inventories
+    - basic_config_ac

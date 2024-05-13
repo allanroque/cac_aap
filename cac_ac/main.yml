@@ -1,0 +1,41 @@
+---
+- name: Configure Automation Controller
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - vars/vars.yml
+    - vars/secret.yml
+  tasks:
+
+    - name: Configure Organizations
+      include_tasks: ./organizations.yml
+      tags:
+        - organizations
+        - basic_config_ac
+
+    #- name: Configure user
+    #- name: Configure groups
+
+    - name: Configure Projects
+      include_tasks: projects.yml
+      tags:
+        - projects
+        - basic_config_ac
+
+    - name: Configure credentials
+      include_tasks: credentials.yml
+      tags:
+        - credentials
+        - basic_config_ac
+
+    - name: Configure Inventories
+      include_tasks: inventories.yml
+      tags:
+        - inventories
+        - basic_config_ac
+
+    - name: Configure Job Templates configuration
+      include_tasks: job_templates.yml
+      tags:
+        - Job_templates
+        - basic_config_ac

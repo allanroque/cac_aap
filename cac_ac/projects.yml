@@ -1,0 +1,19 @@
+---
+- name: Configure Project demo lab
+  ansible.controller.project:
+    name: PROJ-GIT-DEMOLAB
+    description: PROJ-GIT-DEMOLAB project"
+    organization: "Default"
+    scm_type: git
+    scm_update_on_launch: True
+    scm_delete_on_update: True
+    scm_clean: True
+    scm_url: "https://github.com/allanroque/demo_lab.git"
+    state: present
+    controller_host: "{{ ac_host }}"
+    controller_username: "{{ ac_username }}"
+    controller_password: "{{ ac_password }}"
+    validate_certs: "{{ ac_validate_certs }}"
+  tags:
+    - projects
+    - basic_config_ac
